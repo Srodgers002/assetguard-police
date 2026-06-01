@@ -54,7 +54,7 @@ export default function History() {
           { label: 'Returned', value: stats.returned, color: 'bg-blue-600', text: 'Successfully returned' },
           { label: 'Overdue', value: stats.overdue, color: stats.overdue > 0 ? 'bg-red-500' : 'bg-slate-400', text: 'Past return date' },
         ].map(({ label, value, color, text }) => (
-          <div key={label} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+          <div key={label} className="surface interactive-card rounded-lg p-5">
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${color}`}>
               <HistoryIcon size={18} className="text-white" />
             </div>
@@ -69,9 +69,9 @@ export default function History() {
       <div className="flex flex-wrap gap-3">
         <div className="relative">
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-          <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search records..." className="pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-white w-56" />
+          <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search records..." className="field pl-9 pr-4 py-2.5 text-sm w-64" />
         </div>
-        <div className="flex gap-1 bg-white rounded-xl border border-slate-200 p-1">
+        <div className="flex gap-1 bg-white/80 rounded-lg border border-slate-200 p-1 shadow-sm">
           {[
             { label: 'All', value: 'all' },
             { label: 'Active', value: 'active' },
@@ -80,7 +80,7 @@ export default function History() {
           ].map(({ label, value }) => (
             <button key={value} onClick={() => setFilterStatus(value)}
               className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${filterStatus === value ? 'text-white shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-              style={filterStatus === value ? { background: 'linear-gradient(135deg, #f59e0b, #d97706)' } : {}}>
+              style={filterStatus === value ? { background: 'linear-gradient(135deg, #0f766e, #115e59)' } : {}}>
               {label}
             </button>
           ))}
@@ -88,16 +88,16 @@ export default function History() {
       </div>
 
       {/* History Table */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="surface table-shell">
         <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <HistoryIcon size={18} className="text-amber-500" />
+            <HistoryIcon size={18} className="text-teal-600" />
             <h3 className="text-base font-bold text-slate-800">Assignment Audit Trail</h3>
           </div>
           <span className="text-xs bg-slate-100 text-slate-600 font-semibold px-3 py-1 rounded-full">{filtered.length} records</span>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full data-table">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-100">
                 {['Asset', 'Employee', 'Dept.', 'Assigned Date', 'Expected Return', 'Returned Date', 'Condition', 'Assigned By', 'Notes', 'Status'].map(h => (
@@ -140,22 +140,22 @@ export default function History() {
                   <td className="px-5 py-4 whitespace-nowrap">
                     {h.expected_return_date ? (
                       <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${h.is_overdue ? 'bg-red-100 text-red-700' : 'bg-blue-50 text-blue-700'}`}>
-                        {h.is_overdue && '⚠ '}{h.expected_return_date}
+                        {h.is_overdue && 'Overdue: '}{h.expected_return_date}
                       </span>
-                    ) : <span className="text-slate-300 text-sm">—</span>}
+                    ) : <span className="text-slate-300 text-sm">-</span>}
                   </td>
                   <td className="px-5 py-4 whitespace-nowrap">
                     {h.returned_date ? (
                       <span className="text-sm text-emerald-700 font-medium">{h.returned_date}</span>
-                    ) : <span className="text-slate-300 text-sm">—</span>}
+                    ) : <span className="text-slate-300 text-sm">-</span>}
                   </td>
                   <td className="px-5 py-4">
                     {h.condition_on_return ? (
                       <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${conditionColor[h.condition_on_return] || 'bg-slate-50 text-slate-600'}`}>{h.condition_on_return}</span>
-                    ) : <span className="text-slate-300 text-sm">—</span>}
+                    ) : <span className="text-slate-300 text-sm">-</span>}
                   </td>
                   <td className="px-5 py-4 text-sm text-slate-500 whitespace-nowrap">{h.assigned_by}</td>
-                  <td className="px-5 py-4 text-xs text-slate-400 max-w-[140px] truncate">{h.notes || <span className="text-slate-300">—</span>}</td>
+                  <td className="px-5 py-4 text-xs text-slate-400 max-w-[140px] truncate">{h.notes || <span className="text-slate-300">-</span>}</td>
                   <td className="px-5 py-4">
                     {h.is_overdue ? (
                       <span className="flex items-center gap-1.5 text-xs font-semibold text-red-700 bg-red-100 px-2.5 py-1 rounded-full whitespace-nowrap">

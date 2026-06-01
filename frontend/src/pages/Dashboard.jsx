@@ -7,22 +7,20 @@ const COLORS = ['#f59e0b', '#1a2d44', '#10b981', '#6366f1', '#ef4444', '#8b5cf6'
 
 function StatCard({ icon: Icon, label, value, color, subtitle }) {
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 card-hover">
+    <div className="surface interactive-card rounded-lg p-6">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm font-medium text-slate-500 mb-1">{label}</p>
           <p className="text-3xl font-bold text-slate-800">{value}</p>
           {subtitle && <p className="text-xs text-slate-400 mt-1">{subtitle}</p>}
         </div>
-        <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${color}`}>
+        <div className={`w-12 h-12 rounded-lg flex items-center justify-center shadow-lg ${color}`}>
           <Icon size={22} className="text-white" />
         </div>
       </div>
     </div>
   );
 }
-
-const typeIcon = { laptop: <Laptop size={14} />, mobile: <Smartphone size={14} /> };
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
@@ -45,9 +43,34 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
+      <div className="surface rounded-lg p-6 lg:p-7 overflow-hidden relative">
+        <div className="absolute right-8 top-6 hidden lg:block w-28 h-28 rounded-full border border-teal-200/70" />
+        <div className="relative flex flex-col lg:flex-row lg:items-end justify-between gap-5">
+          <div>
+            <p className="text-sm font-bold text-teal-700 mb-2">Operational overview</p>
+            <h1 className="text-2xl lg:text-3xl font-bold text-slate-950">Asset control room</h1>
+            <p className="text-sm text-slate-500 mt-2 max-w-2xl">
+              Monitor inventory health, current assignments, overdue returns, and recent movement from one focused workspace.
+            </p>
+          </div>
+          <div className="grid grid-cols-3 gap-2 min-w-full sm:min-w-[360px]">
+            {[
+              { label: 'Assigned', value: data.assigned_assets, tone: 'text-teal-700 bg-teal-50 border-teal-100' },
+              { label: 'Ready', value: data.available_assets, tone: 'text-blue-700 bg-blue-50 border-blue-100' },
+              { label: 'Overdue', value: data.overdue_count, tone: data.overdue_count > 0 ? 'text-red-700 bg-red-50 border-red-100' : 'text-emerald-700 bg-emerald-50 border-emerald-100' },
+            ].map(item => (
+              <div key={item.label} className={`rounded-lg border px-4 py-3 ${item.tone}`}>
+                <p className="text-2xl font-bold">{item.value}</p>
+                <p className="text-xs font-semibold">{item.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Overdue alert */}
       {data.overdue_count > 0 && (
-        <div className="flex items-center gap-3 bg-red-50 border border-red-200 rounded-xl px-5 py-4 text-red-700">
+        <div className="flex items-center gap-3 bg-red-50 border border-red-200 rounded-lg px-5 py-4 text-red-700 shadow-sm">
           <AlertTriangle size={20} className="text-red-500 shrink-0" />
           <p className="text-sm font-medium">
             <span className="font-bold">{data.overdue_count} asset{data.overdue_count > 1 ? 's' : ''}</span> overdue for return. Review assignments immediately.
@@ -57,18 +80,18 @@ export default function Dashboard() {
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={Package} label="Total Assets" value={data.total_assets} color="bg-amber-500" subtitle="Laptops & mobiles" />
-        <StatCard icon={Users} label="Total Employees" value={data.total_employees} color="bg-slate-700" subtitle="Personnel registered" />
-        <StatCard icon={CheckCircle2} label="Assigned Assets" value={data.assigned_assets} color="bg-emerald-500" subtitle="Currently in use" />
-        <StatCard icon={Clock} label="Available Assets" value={data.available_assets} color="bg-blue-500" subtitle="Ready to assign" />
+        <StatCard icon={Package} label="Total Assets" value={data.total_assets} color="bg-gradient-to-br from-teal-500 to-teal-700" subtitle="Laptops & mobiles" />
+        <StatCard icon={Users} label="Total Employees" value={data.total_employees} color="bg-gradient-to-br from-slate-700 to-slate-900" subtitle="Personnel registered" />
+        <StatCard icon={CheckCircle2} label="Assigned Assets" value={data.assigned_assets} color="bg-gradient-to-br from-emerald-500 to-emerald-700" subtitle="Currently in use" />
+        <StatCard icon={Clock} label="Available Assets" value={data.available_assets} color="bg-gradient-to-br from-blue-500 to-indigo-600" subtitle="Ready to assign" />
       </div>
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Bar chart */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <div className="surface rounded-lg p-6 interactive-card">
           <div className="flex items-center gap-2 mb-6">
-            <TrendingUp size={18} className="text-amber-500" />
+            <TrendingUp size={18} className="text-teal-600" />
             <h3 className="text-base font-bold text-slate-800">Assets by Type</h3>
           </div>
           <ResponsiveContainer width="100%" height={220}>
@@ -77,15 +100,15 @@ export default function Dashboard() {
               <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#64748b', textTransform: 'capitalize' }} />
               <YAxis tick={{ fontSize: 12, fill: '#64748b' }} />
               <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }} />
-              <Bar dataKey="value" fill="#f59e0b" radius={[6, 6, 0, 0]} name="Count" />
+              <Bar dataKey="value" fill="#0f766e" radius={[10, 10, 0, 0]} name="Count" />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
         {/* Pie chart */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <div className="surface rounded-lg p-6 interactive-card">
           <div className="flex items-center gap-2 mb-6">
-            <Package size={18} className="text-amber-500" />
+            <Package size={18} className="text-teal-600" />
             <h3 className="text-base font-bold text-slate-800">Assets by Condition</h3>
           </div>
           <ResponsiveContainer width="100%" height={220}>
@@ -105,11 +128,11 @@ export default function Dashboard() {
       {/* Quick stats bar */}
       <div className="grid grid-cols-3 gap-4">
         {[
-          { label: 'Assignment Rate', value: data.total_assets > 0 ? `${Math.round((data.assigned_assets / data.total_assets) * 100)}%` : '0%', color: 'text-amber-600', bg: 'bg-amber-50' },
+          { label: 'Assignment Rate', value: data.total_assets > 0 ? `${Math.round((data.assigned_assets / data.total_assets) * 100)}%` : '0%', color: 'text-teal-700', bg: 'bg-teal-50 border-teal-100' },
           { label: 'Overdue Returns', value: data.overdue_count, color: data.overdue_count > 0 ? 'text-red-600' : 'text-emerald-600', bg: data.overdue_count > 0 ? 'bg-red-50' : 'bg-emerald-50' },
           { label: 'Utilization', value: data.total_assets > 0 ? `${Math.round((data.assigned_assets / data.total_assets) * 100)}%` : '0%', color: 'text-blue-600', bg: 'bg-blue-50' },
         ].map(({ label, value, color, bg }) => (
-          <div key={label} className={`${bg} rounded-2xl p-5 text-center`}>
+          <div key={label} className={`${bg} border rounded-lg p-5 text-center interactive-card`}>
             <p className="text-xs font-medium text-slate-500 mb-1">{label}</p>
             <p className={`text-2xl font-bold ${color}`}>{value}</p>
           </div>
@@ -117,13 +140,13 @@ export default function Dashboard() {
       </div>
 
       {/* Recent Assignments */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="surface table-shell">
         <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
           <h3 className="text-base font-bold text-slate-800">Recent Assignments</h3>
           <span className="text-xs text-slate-400 bg-slate-100 px-3 py-1 rounded-full">Last 5 records</span>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full data-table">
             <thead>
               <tr className="bg-slate-50">
                 {['Asset', 'Type', 'Employee', 'Assigned Date', 'Assigned By', 'Status'].map(h => (
