@@ -94,7 +94,7 @@ export default function Assets() {
   return (
     <div className="space-y-5">
       {/* Header actions */}
-      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+      <div className="surface rounded-lg p-4 flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
         <div className="flex flex-wrap gap-2">
           {/* Search */}
           <div className="relative">
@@ -104,22 +104,22 @@ export default function Assets() {
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search assets..."
-              className="pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-white w-56"
+              className="field pl-9 pr-4 py-2.5 text-sm w-64"
             />
           </div>
           {/* Filters */}
-          <select value={filterType} onChange={e => setFilterType(e.target.value)} className="px-4 py-2.5 rounded-xl border border-slate-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 text-slate-600">
+          <select value={filterType} onChange={e => setFilterType(e.target.value)} className="field px-4 py-2.5 text-sm text-slate-600 w-36">
             <option value="all">All Types</option>
             <option value="laptop">Laptop</option>
             <option value="mobile">Mobile</option>
           </select>
-          <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} className="px-4 py-2.5 rounded-xl border border-slate-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 text-slate-600">
+          <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} className="field px-4 py-2.5 text-sm text-slate-600 w-40">
             <option value="all">All Status</option>
             <option value="available">Available</option>
             <option value="assigned">Assigned</option>
           </select>
         </div>
-        <button onClick={openAdd} className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-semibold shadow-lg hover:shadow-xl hover:opacity-95 transition-all" style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)' }}>
+        <button onClick={openAdd} className="btn-primary px-5 py-2.5 text-sm">
           <Plus size={18} />
           Add Asset
         </button>
@@ -128,20 +128,20 @@ export default function Assets() {
       {/* Summary badges */}
       <div className="flex gap-3 flex-wrap">
         {[
-          { label: 'Total', count: assets.length, color: 'bg-slate-100 text-slate-700' },
-          { label: 'Laptops', count: assets.filter(a => a.asset_type === 'laptop').length, color: 'bg-blue-100 text-blue-700' },
-          { label: 'Mobiles', count: assets.filter(a => a.asset_type === 'mobile').length, color: 'bg-purple-100 text-purple-700' },
-          { label: 'Available', count: assets.filter(a => a.status === 'available').length, color: 'bg-emerald-100 text-emerald-700' },
-          { label: 'Assigned', count: assets.filter(a => a.status === 'assigned').length, color: 'bg-amber-100 text-amber-700' },
+          { label: 'Total', count: assets.length, color: 'bg-white/80 text-slate-700 border-slate-200' },
+          { label: 'Laptops', count: assets.filter(a => a.asset_type === 'laptop').length, color: 'bg-blue-50 text-blue-700 border-blue-100' },
+          { label: 'Mobiles', count: assets.filter(a => a.asset_type === 'mobile').length, color: 'bg-purple-50 text-purple-700 border-purple-100' },
+          { label: 'Available', count: assets.filter(a => a.status === 'available').length, color: 'bg-emerald-50 text-emerald-700 border-emerald-100' },
+          { label: 'Assigned', count: assets.filter(a => a.status === 'assigned').length, color: 'bg-amber-50 text-amber-700 border-amber-100' },
         ].map(({ label, count, color }) => (
-          <span key={label} className={`text-xs font-semibold px-3 py-1.5 rounded-full ${color}`}>{label}: {count}</span>
+          <span key={label} className={`text-xs font-semibold px-3 py-1.5 rounded-full border ${color}`}>{label}: {count}</span>
         ))}
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="surface table-shell">
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full data-table">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-100">
                 {['Asset Name', 'Type', 'Company / Model', 'Serial No.', 'Warranty', 'Condition', 'Purchase Date', 'Location', 'Status', 'Assigned To', 'Actions'].map(h => (
@@ -151,7 +151,7 @@ export default function Assets() {
             </thead>
             <tbody className="divide-y divide-slate-100">
               {loading ? (
-                <tr><td colSpan={11} className="text-center py-16"><div className="w-8 h-8 border-3 border-amber-400 border-t-transparent rounded-full animate-spin mx-auto" /></td></tr>
+                <tr><td colSpan={11} className="text-center py-16"><div className="w-8 h-8 border-4 border-amber-400 border-t-transparent rounded-full animate-spin mx-auto" /></td></tr>
               ) : filtered.length === 0 ? (
                 <tr><td colSpan={11} className="text-center py-16">
                   <Package size={40} className="text-slate-300 mx-auto mb-3" />
@@ -180,7 +180,7 @@ export default function Assets() {
                   <td className="px-5 py-4 text-sm text-slate-500 whitespace-nowrap">{a.purchase_date}</td>
                   <td className="px-5 py-4 text-sm text-slate-600">{a.location}</td>
                   <td className="px-5 py-4"><Badge status={a.status} /></td>
-                  <td className="px-5 py-4 text-sm text-slate-500">{a.assigned_to || <span className="text-slate-300">—</span>}</td>
+                  <td className="px-5 py-4 text-sm text-slate-500">{a.assigned_to || <span className="text-slate-300">-</span>}</td>
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-1">
                       <button onClick={() => openEdit(a)} className="p-2 rounded-lg text-slate-400 hover:text-amber-600 hover:bg-amber-50 transition-colors"><Pencil size={15} /></button>
@@ -196,8 +196,8 @@ export default function Assets() {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}>
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+          <div className="surface rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-slide-in">
             <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
               <div>
                 <h3 className="text-lg font-bold text-slate-800">{editing ? 'Edit Asset' : 'Add New Asset'}</h3>
@@ -209,49 +209,49 @@ export default function Assets() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-2">
                   <label className="block text-xs font-semibold text-slate-600 mb-1.5">Asset Name *</label>
-                  <input required value={form.name} onChange={e => setForm({...form, name: e.target.value})} placeholder="e.g. Dell Latitude 5540" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-slate-50" />
+                  <input required value={form.name} onChange={e => setForm({...form, name: e.target.value})} placeholder="e.g. Dell Latitude 5540" className="field px-4 py-2.5 text-sm" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1.5">Asset Type *</label>
-                  <select required value={form.asset_type} onChange={e => setForm({...form, asset_type: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-slate-50">
+                  <select required value={form.asset_type} onChange={e => setForm({...form, asset_type: e.target.value})} className="field px-4 py-2.5 text-sm">
                     <option value="laptop">Laptop</option>
                     <option value="mobile">Mobile</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1.5">Company *</label>
-                  <input required value={form.company} onChange={e => setForm({...form, company: e.target.value})} placeholder="e.g. Dell, HP, Samsung" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-slate-50" />
+                  <input required value={form.company} onChange={e => setForm({...form, company: e.target.value})} placeholder="e.g. Dell, HP, Samsung" className="field px-4 py-2.5 text-sm" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1.5">Model No. *</label>
-                  <input required value={form.model_no} onChange={e => setForm({...form, model_no: e.target.value})} placeholder="e.g. LAT-5540-I5" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-slate-50" />
+                  <input required value={form.model_no} onChange={e => setForm({...form, model_no: e.target.value})} placeholder="e.g. LAT-5540-I5" className="field px-4 py-2.5 text-sm" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1.5">Serial Number *</label>
-                  <input required value={form.serial_number} onChange={e => setForm({...form, serial_number: e.target.value})} placeholder="Unique serial number" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-slate-50" />
+                  <input required value={form.serial_number} onChange={e => setForm({...form, serial_number: e.target.value})} placeholder="Unique serial number" className="field px-4 py-2.5 text-sm" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1.5">Condition *</label>
-                  <select required value={form.condition} onChange={e => setForm({...form, condition: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-slate-50">
+                  <select required value={form.condition} onChange={e => setForm({...form, condition: e.target.value})} className="field px-4 py-2.5 text-sm">
                     {CONDITIONS.map(c => <option key={c}>{c}</option>)}
                   </select>
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1.5">Warranty</label>
-                  <input value={form.warranty} onChange={e => setForm({...form, warranty: e.target.value})} placeholder="e.g. Mar 2026" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-slate-50" />
+                  <input value={form.warranty} onChange={e => setForm({...form, warranty: e.target.value})} placeholder="e.g. Mar 2026" className="field px-4 py-2.5 text-sm" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1.5">Purchase Date</label>
-                  <input value={form.purchase_date} onChange={e => setForm({...form, purchase_date: e.target.value})} placeholder="e.g. Mar 15, 2023" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-slate-50" />
+                  <input value={form.purchase_date} onChange={e => setForm({...form, purchase_date: e.target.value})} placeholder="e.g. Mar 15, 2023" className="field px-4 py-2.5 text-sm" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1.5">Location *</label>
-                  <input required value={form.location} onChange={e => setForm({...form, location: e.target.value})} placeholder="e.g. Headquarters, Cyber Cell" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-slate-50" />
+                  <input required value={form.location} onChange={e => setForm({...form, location: e.target.value})} placeholder="e.g. Headquarters, Cyber Cell" className="field px-4 py-2.5 text-sm" />
                 </div>
               </div>
               <div className="flex gap-3 pt-2">
-                <button type="button" onClick={() => setShowModal(false)} className="flex-1 py-3 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">Cancel</button>
-                <button type="submit" disabled={saving} className="flex-1 py-3 rounded-xl text-white text-sm font-semibold transition-all hover:opacity-95" style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)' }}>
+                <button type="button" onClick={() => setShowModal(false)} className="btn-secondary flex-1 py-3 text-sm">Cancel</button>
+                <button type="submit" disabled={saving} className="btn-primary flex-1 py-3 text-sm disabled:opacity-60">
                   {saving ? 'Saving...' : editing ? 'Update Asset' : 'Add Asset'}
                 </button>
               </div>

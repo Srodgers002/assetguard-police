@@ -72,7 +72,7 @@ export default function Assignments() {
   return (
     <div className="space-y-6">
       {overdueCount > 0 && (
-        <div className="flex items-center gap-3 bg-red-50 border border-red-200 rounded-xl px-5 py-4">
+        <div className="flex items-center gap-3 bg-red-50 border border-red-200 rounded-lg px-5 py-4 shadow-sm">
           <AlertTriangle size={20} className="text-red-500 shrink-0" />
           <p className="text-sm font-medium text-red-700">
             <span className="font-bold">{overdueCount} assignment{overdueCount > 1 ? 's' : ''}</span> overdue for return! Please follow up immediately.
@@ -83,8 +83,8 @@ export default function Assignments() {
       {/* Assign & Unassign forms */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Assign */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          <div className="px-6 py-5 border-b border-slate-100" style={{ background: 'linear-gradient(135deg, #0d1b2a, #1a2d44)' }}>
+        <div className="surface rounded-lg overflow-hidden interactive-card">
+          <div className="px-6 py-5 border-b border-slate-100" style={{ background: 'linear-gradient(135deg, #0f766e, #101828)' }}>
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-amber-400/20 flex items-center justify-center">
                 <ArrowRightLeft size={18} className="text-amber-400" />
@@ -98,39 +98,39 @@ export default function Assignments() {
           <form onSubmit={handleAssign} className="p-6 space-y-4">
             <div>
               <label className="block text-xs font-semibold text-slate-600 mb-1.5">Select Asset *</label>
-              <select value={assignForm.asset_id} onChange={e => setAssignForm({...assignForm, asset_id: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-slate-50 text-slate-700">
-                <option value="">— Choose an available asset —</option>
+              <select value={assignForm.asset_id} onChange={e => setAssignForm({...assignForm, asset_id: e.target.value})} className="field px-4 py-2.5 text-sm text-slate-700">
+                <option value="">Choose an available asset</option>
                 {availableAssets.map(a => (
-                  <option key={a.id} value={a.id}>{a.name} ({a.asset_type}) · {a.serial_number}</option>
+                  <option key={a.id} value={a.id}>{a.name} ({a.asset_type}) - {a.serial_number}</option>
                 ))}
               </select>
               {availableAssets.length === 0 && <p className="text-xs text-amber-600 mt-1">No assets available for assignment</p>}
             </div>
             <div>
               <label className="block text-xs font-semibold text-slate-600 mb-1.5">Select Employee *</label>
-              <select value={assignForm.employee_id} onChange={e => setAssignForm({...assignForm, employee_id: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-slate-50 text-slate-700">
-                <option value="">— Choose an employee —</option>
+              <select value={assignForm.employee_id} onChange={e => setAssignForm({...assignForm, employee_id: e.target.value})} className="field px-4 py-2.5 text-sm text-slate-700">
+                <option value="">Choose an employee</option>
                 {employees.map(e => (
-                  <option key={e.id} value={e.id}>{e.name} · {e.employee_id} · {e.department}</option>
+                  <option key={e.id} value={e.id}>{e.name} - {e.employee_id} - {e.department}</option>
                 ))}
               </select>
             </div>
             <div>
               <label className="block text-xs font-semibold text-slate-600 mb-1.5">Expected Return Date</label>
-              <input type="date" value={assignForm.expected_return_date} onChange={e => setAssignForm({...assignForm, expected_return_date: e.target.value})} min={new Date().toISOString().split('T')[0]} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-slate-50 text-slate-700" />
+              <input type="date" value={assignForm.expected_return_date} onChange={e => setAssignForm({...assignForm, expected_return_date: e.target.value})} min={new Date().toISOString().split('T')[0]} className="field px-4 py-2.5 text-sm text-slate-700" />
             </div>
             <div>
               <label className="block text-xs font-semibold text-slate-600 mb-1.5">Notes / Remarks</label>
-              <textarea value={assignForm.notes} onChange={e => setAssignForm({...assignForm, notes: e.target.value})} placeholder="Purpose of assignment, special instructions..." rows={2} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-slate-50 resize-none text-slate-700" />
+              <textarea value={assignForm.notes} onChange={e => setAssignForm({...assignForm, notes: e.target.value})} placeholder="Purpose of assignment, special instructions..." rows={2} className="field px-4 py-2.5 text-sm resize-none text-slate-700" />
             </div>
-            <button type="submit" disabled={saving} className="w-full py-3 rounded-xl text-white text-sm font-semibold transition-all hover:opacity-95 shadow-md" style={{ background: 'linear-gradient(135deg, #0d1b2a, #1a2d44)' }}>
+            <button type="submit" disabled={saving} className="btn-primary w-full py-3 text-sm disabled:opacity-60">
               {saving ? 'Assigning...' : 'Assign Asset'}
             </button>
           </form>
         </div>
 
         {/* Quick unassign panel */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        <div className="surface rounded-lg overflow-hidden interactive-card">
           <div className="px-6 py-5 border-b border-slate-100" style={{ background: 'linear-gradient(135deg, #7f1d1d, #991b1b)' }}>
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-red-400/20 flex items-center justify-center">
@@ -161,7 +161,7 @@ export default function Assignments() {
                       <div className="min-w-0">
                         <p className="text-xs font-semibold text-slate-800 truncate">{a.asset}</p>
                         <p className="text-xs text-slate-500 truncate">{a.employee}</p>
-                        {a.is_overdue && <p className="text-xs text-red-600 font-medium">⚠ Overdue</p>}
+                        {a.is_overdue && <p className="text-xs text-red-600 font-medium">Overdue</p>}
                       </div>
                     </div>
                     <button onClick={() => { setUnassignModal(a); setUnassignForm({ condition_on_return: 'Good', notes: '' }); }} className="ml-2 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors shrink-0">
@@ -176,16 +176,16 @@ export default function Assignments() {
       </div>
 
       {/* Current Assignments Table */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="surface table-shell">
         <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <ClipboardList size={18} className="text-amber-500" />
+            <ClipboardList size={18} className="text-teal-600" />
             <h3 className="text-base font-bold text-slate-800">Current Assignments</h3>
           </div>
           <span className="text-xs bg-amber-100 text-amber-700 font-semibold px-3 py-1 rounded-full">{assignments.length} active</span>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full data-table">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-100">
                 {['Asset', 'Employee', 'Department', 'Assigned Date', 'Expected Return', 'Notes', 'Status', 'Action'].map(h => (
@@ -195,7 +195,7 @@ export default function Assignments() {
             </thead>
             <tbody className="divide-y divide-slate-100">
               {loading ? (
-                <tr><td colSpan={8} className="text-center py-12"><div className="w-8 h-8 border-3 border-amber-400 border-t-transparent rounded-full animate-spin mx-auto" /></td></tr>
+                <tr><td colSpan={8} className="text-center py-12"><div className="w-8 h-8 border-4 border-amber-400 border-t-transparent rounded-full animate-spin mx-auto" /></td></tr>
               ) : assignments.length === 0 ? (
                 <tr><td colSpan={8} className="text-center py-12 text-slate-400 text-sm">No active assignments</td></tr>
               ) : assignments.map(a => (
@@ -225,11 +225,11 @@ export default function Assignments() {
                   <td className="px-5 py-4 whitespace-nowrap">
                     {a.expected_return_date ? (
                       <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${a.is_overdue ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'}`}>
-                        {a.is_overdue ? '⚠ ' : ''}{a.expected_return_date}
+                        {a.is_overdue ? 'Overdue: ' : ''}{a.expected_return_date}
                       </span>
-                    ) : <span className="text-slate-300 text-sm">—</span>}
+                    ) : <span className="text-slate-300 text-sm">-</span>}
                   </td>
-                  <td className="px-5 py-4 text-xs text-slate-500 max-w-[140px] truncate">{a.notes || <span className="text-slate-300">—</span>}</td>
+                  <td className="px-5 py-4 text-xs text-slate-500 max-w-[140px] truncate">{a.notes || <span className="text-slate-300">-</span>}</td>
                   <td className="px-5 py-4">
                     <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${a.is_overdue ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}`}>
                       {a.is_overdue ? 'Overdue' : 'Active'}
@@ -250,8 +250,8 @@ export default function Assignments() {
 
       {/* Unassign Modal */}
       {unassignModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}>
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+          <div className="surface rounded-lg shadow-2xl w-full max-w-md animate-slide-in">
             <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
               <div>
                 <h3 className="text-lg font-bold text-slate-800">Process Asset Return</h3>
@@ -268,7 +268,7 @@ export default function Assignments() {
                   <div>
                     <p className="text-sm font-bold text-slate-800">{unassignModal.asset}</p>
                     <p className="text-xs text-slate-500">Returning from: <span className="font-semibold">{unassignModal.employee}</span></p>
-                    {unassignModal.is_overdue && <p className="text-xs text-red-600 font-semibold mt-0.5">⚠ This asset is overdue!</p>}
+                    {unassignModal.is_overdue && <p className="text-xs text-red-600 font-semibold mt-0.5">This asset is overdue.</p>}
                   </div>
                 </div>
               </div>
@@ -279,7 +279,7 @@ export default function Assignments() {
                 <div className="grid grid-cols-5 gap-2">
                   {CONDITIONS.map(c => (
                     <button key={c} type="button" onClick={() => setUnassignForm({...unassignForm, condition_on_return: c})}
-                      className={`py-2 rounded-xl text-xs font-semibold border-2 transition-all ${unassignForm.condition_on_return === c ? 'border-amber-400 bg-amber-50 text-amber-700' : 'border-slate-200 text-slate-500 hover:border-slate-300'}`}>
+                      className={`py-2 rounded-xl text-xs font-semibold border-2 transition-all ${unassignForm.condition_on_return === c ? 'border-teal-400 bg-teal-50 text-teal-700' : 'border-slate-200 text-slate-500 hover:border-slate-300'}`}>
                       {c}
                     </button>
                   ))}
@@ -287,10 +287,10 @@ export default function Assignments() {
               </div>
               <div>
                 <label className="block text-xs font-semibold text-slate-600 mb-1.5">Return Notes</label>
-                <textarea value={unassignForm.notes} onChange={e => setUnassignForm({...unassignForm, notes: e.target.value})} placeholder="Any damage, observations, or special notes..." rows={3} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 bg-slate-50 resize-none" />
+                <textarea value={unassignForm.notes} onChange={e => setUnassignForm({...unassignForm, notes: e.target.value})} placeholder="Any damage, observations, or special notes..." rows={3} className="field px-4 py-2.5 text-sm resize-none" />
               </div>
               <div className="flex gap-3">
-                <button type="button" onClick={() => setUnassignModal(null)} className="flex-1 py-3 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
+                <button type="button" onClick={() => setUnassignModal(null)} className="btn-secondary flex-1 py-3 text-sm">Cancel</button>
                 <button type="submit" disabled={saving} className="flex-1 py-3 rounded-xl text-white text-sm font-semibold bg-red-500 hover:bg-red-600 transition-colors">
                   {saving ? 'Processing...' : 'Confirm Return'}
                 </button>
