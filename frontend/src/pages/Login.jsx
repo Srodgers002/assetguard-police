@@ -32,16 +32,16 @@ export default function Login() {
     <div className="min-h-screen flex bg-slate-950">
       <div className="hidden lg:flex flex-col justify-between w-[58%] p-14 xl:p-16 relative overflow-hidden">
         <img src={hero} alt="" className="absolute inset-0 w-full h-full object-cover opacity-25" />
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-950/88 to-teal-950/82" />
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-orange-950/88 to-slate-950/82" />
 
         <div className="relative">
           <div className="flex items-center gap-4 mb-10">
-            <div className="w-14 h-14 rounded-lg flex items-center justify-center shadow-lg shadow-teal-950/40" style={{ background: 'linear-gradient(135deg, #14b8a6, #f59e0b)' }}>
+            <div className="w-14 h-14 rounded-lg flex items-center justify-center shadow-lg shadow-orange-950/40" style={{ background: 'linear-gradient(135deg, #f97316, #f59e0b)' }}>
               <Shield size={28} className="text-white" />
             </div>
             <div>
               <h1 className="text-2xl font-bold text-white">AssetGuard</h1>
-              <p className="text-teal-200 text-sm">Asset Management System</p>
+              <p className="text-orange-100 text-sm">Asset Management System</p>
             </div>
           </div>
 
@@ -62,19 +62,19 @@ export default function Login() {
             { icon: ClipboardList, text: 'Complete audit history' },
           ].map(({ icon: Icon, text }) => (
             <div key={text} className="rounded-lg border border-white/10 bg-white/10 p-4 text-slate-200 backdrop-blur">
-              <Icon size={22} className="text-teal-200 mb-3" />
+              <Icon size={22} className="text-orange-100 mb-3" />
               <span className="text-sm font-semibold">{text}</span>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="flex-1 flex items-center justify-center p-6 sm:p-8" style={{ background: 'radial-gradient(circle at top right, rgba(20,184,166,0.16), transparent 26rem), #f8fafc' }}>
+      <div className="flex-1 flex items-center justify-center p-6 sm:p-8" style={{ background: 'radial-gradient(circle at top right, rgba(249,115,22,0.18), transparent 26rem), #f8fafc' }}>
         <div className="w-full max-w-md">
           <div className="surface rounded-lg p-8">
             <div className="text-center mb-8">
-              <div className="w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 shadow-lg shadow-teal-950/10" style={{ background: 'linear-gradient(135deg, #0f766e, #101828)' }}>
-                <Shield size={28} className="text-teal-200" />
+              <div className="w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 shadow-lg shadow-orange-950/10" style={{ background: 'linear-gradient(135deg, #f97316, #7c2d12)' }}>
+                <Shield size={28} className="text-orange-100" />
               </div>
               <h3 className="text-2xl font-bold text-slate-800">Welcome Back</h3>
               <p className="text-slate-500 text-sm mt-1">Sign in to AssetGuard Portal</p>
@@ -106,7 +106,7 @@ export default function Login() {
                     placeholder="Enter your password"
                     className="field pl-11 pr-12 py-3.5 text-sm"
                   />
-                  <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-teal-700 transition-colors">
+                  <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-orange-700 transition-colors">
                     {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
@@ -127,10 +127,10 @@ export default function Login() {
               </button>
             </form>
 
-            <div className="mt-6 p-4 bg-teal-50 rounded-lg border border-teal-100">
-              <p className="text-xs font-semibold text-teal-800 mb-1">Demo Credentials</p>
-              <p className="text-xs text-teal-700">Admin: <span className="font-mono font-bold">admin</span> / <span className="font-mono font-bold">admin123</span></p>
-              <p className="text-xs text-teal-700">Manager: <span className="font-mono font-bold">manager</span> / <span className="font-mono font-bold">manager123</span></p>
+            <div className="mt-6 p-4 bg-orange-50 rounded-lg border border-orange-100">
+              <p className="text-xs font-semibold text-orange-800 mb-1">Demo Credentials</p>
+              <p className="text-xs text-orange-700">Admin: <span className="font-mono font-bold">admin</span> / <span className="font-mono font-bold">admin123</span></p>
+              <p className="text-xs text-orange-700">Employee: <span className="font-mono font-bold">employee</span> / <span className="font-mono font-bold">employee123</span></p>
             </div>
           </div>
           <p className="text-center text-slate-500/60 text-xs mt-6">

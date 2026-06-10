@@ -3,9 +3,13 @@ import { Bell, CalendarDays, Radio, ShieldCheck } from 'lucide-react';
 
 const titles = {
   '/': { title: 'Dashboard', subtitle: 'Overview of asset management operations' },
-  '/assets': { title: 'Assets', subtitle: 'Manage laptops and mobile devices' },
+  '/assets': { title: 'Assets', subtitle: 'Manage all government asset records' },
   '/employees': { title: 'Employees', subtitle: 'Police department personnel database' },
   '/assignments': { title: 'Assignments', subtitle: 'Assign and manage assets to employees' },
+  '/requests': { title: 'Requests', subtitle: 'Approve and track employee asset requests' },
+  '/available-assets': { title: 'Available Assets', subtitle: 'Request assets available from government inventory' },
+  '/my-assets': { title: 'My Assets', subtitle: 'Assets currently assigned to you' },
+  '/my-requests': { title: 'My Requests', subtitle: 'Track your asset request status' },
   '/history': { title: 'Assignment History', subtitle: 'Complete audit trail of all asset movements' },
 };
 
@@ -19,7 +23,7 @@ export default function Topbar() {
       <div className="surface rounded-lg px-5 py-4 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
         <div className="min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-50 text-teal-700 border border-teal-100 px-2.5 py-1 text-xs font-bold">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-50 text-orange-700 border border-orange-100 px-2.5 py-1 text-xs font-bold">
               <ShieldCheck size={13} />
               Asset command
             </span>
@@ -30,9 +34,9 @@ export default function Topbar() {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="hidden md:flex items-center gap-2 rounded-lg bg-teal-50 border border-teal-100 px-3 py-2">
-            <Radio size={16} className="text-teal-700" />
-            <span className="text-sm font-semibold text-teal-800">Live inventory workspace</span>
+          <div className="hidden md:flex items-center gap-2 rounded-lg bg-orange-50 border border-orange-100 px-3 py-2">
+            <Radio size={16} className="text-orange-700" />
+            <span className="text-sm font-semibold text-orange-800">Live inventory workspace</span>
           </div>
 
           <div className="hidden lg:flex items-center gap-2 rounded-lg bg-amber-50 border border-amber-100 px-3 py-2">
@@ -43,7 +47,7 @@ export default function Topbar() {
             </div>
           </div>
 
-          <button className="relative w-11 h-11 rounded-lg flex items-center justify-center bg-white border border-slate-200 hover:border-teal-200 hover:bg-teal-50 transition-colors">
+          <button className="relative w-11 h-11 rounded-lg flex items-center justify-center bg-white border border-slate-200 hover:border-orange-200 hover:bg-orange-50 transition-colors">
             <Bell size={18} className="text-slate-600" />
             <span className="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-amber-400 ring-2 ring-white" />
           </button>
