@@ -206,7 +206,7 @@ export default function Employees() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1.5">Phone Number *</label>
-                  <input required value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} placeholder="10-digit mobile" className="field px-4 py-2.5 text-sm" />
+                  <input required value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} placeholder="10-digit contact number" className="field px-4 py-2.5 text-sm" />
                 </div>
               </div>
               <div className="flex gap-3 pt-2">

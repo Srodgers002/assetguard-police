@@ -11,6 +11,7 @@ venv/
 
 # SQLite database (don't commit local DB)
 backend/*.db
+*.db
 
 # Node
 node_modules/

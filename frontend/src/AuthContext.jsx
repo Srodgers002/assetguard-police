@@ -15,8 +15,9 @@ export function AuthProvider({ children }) {
     form.append('password', password);
     const res = await api.post('/login', form);
     localStorage.setItem('token', res.data.access_token);
-    localStorage.setItem('user', JSON.stringify({ username: res.data.username, role: res.data.role }));
-    setUser({ username: res.data.username, role: res.data.role });
+    const signedInUser = { username: res.data.username, role: res.data.role, employee_id: res.data.employee_id };
+    localStorage.setItem('user', JSON.stringify(signedInUser));
+    setUser(signedInUser);
     return res.data;
   };
 

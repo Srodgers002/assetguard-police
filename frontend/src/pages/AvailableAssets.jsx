@@ -1,0 +1,81 @@
+import { useEffect, useState } from 'react';
+import { PackageCheck, Send } from 'lucide-react';
+import toast from 'react-hot-toast';
+import api from '../api';
+
+export default function AvailableAssets() {
+  const [assets, setAssets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [requesting, setRequesting] = useState(null);
+
+  const fetchAssets = async () => {
+    setLoading(true);
+    try {
+      const res = await api.get('/assets/available');
+      setAssets(res.data);
+    } catch (err) {
+      toast.error(err.response?.data?.detail || 'Failed to load available assets');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => { fetchAssets(); }, []);
+
+  const requestAsset = async (asset) => {
+    const notes = prompt(`Request ${asset.asset_id} - ${asset.name}. Add a short purpose or leave blank:`);
+    setRequesting(asset.id);
+    try {
+      await api.post('/requests', { asset_id: asset.id, notes: notes || null });
+      toast.success('Asset request submitted');
+    } catch (err) {
+      toast.error(err.response?.data?.detail || 'Request failed');
+    } finally {
+      setRequesting(null);
+    }
+  };
+
+  return (
+    <div className="surface table-shell">
+      <div className="px-6 py-5 border-b border-orange-100 flex items-center justify-between bg-orange-50/70">
+        <div className="flex items-center gap-2">
+          <PackageCheck size={18} className="text-orange-600" />
+          <h3 className="text-base font-bold text-slate-800">Available Assets</h3>
+        </div>
+        <span className="text-xs bg-white text-orange-700 border border-orange-100 font-bold px-3 py-1 rounded-full">{assets.length} available</span>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full data-table">
+          <thead>
+            <tr className="bg-slate-50 border-b border-slate-100">
+              {['Asset ID', 'Asset Name', 'Asset Type', 'Category', 'Subcategory', 'Current Location', 'Action'].map(header => (
+                <th key={header} className="text-left text-xs font-bold text-slate-500 px-5 py-3.5 uppercase tracking-wider whitespace-nowrap">{header}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100">
+            {loading ? (
+              <tr><td colSpan={7} className="text-center py-12"><div className="w-8 h-8 border-4 border-orange-400 border-t-transparent rounded-full animate-spin mx-auto" /></td></tr>
+            ) : assets.length === 0 ? (
+              <tr><td colSpan={7} className="text-center py-12 text-slate-400 text-sm">No assets are currently available</td></tr>
+            ) : assets.map(asset => (
+              <tr key={asset.id}>
+                <td className="px-5 py-4 text-sm font-mono font-bold text-slate-800">{asset.asset_id}</td>
+                <td className="px-5 py-4 text-sm font-semibold text-slate-800">{asset.name}</td>
+                <td className="px-5 py-4 text-sm text-orange-700 font-semibold">{asset.asset_type}</td>
+                <td className="px-5 py-4 text-sm text-slate-500">{asset.category || '-'}</td>
+                <td className="px-5 py-4 text-sm text-slate-500">{asset.subcategory || '-'}</td>
+                <td className="px-5 py-4 text-sm text-slate-500">{asset.current_location}</td>
+                <td className="px-5 py-4">
+                  <button onClick={() => requestAsset(asset)} disabled={requesting === asset.id} className="btn-primary px-3 py-2 text-xs disabled:opacity-60">
+                    <Send size={13} />Request Asset
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
